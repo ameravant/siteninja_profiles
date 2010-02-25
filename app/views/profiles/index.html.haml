@@ -8,7 +8,6 @@
         = submit_tag "Search"
         - unless params[:search].blank?
           = link_to "clear search", request.path
-    / =render :partial => 'searches/form', :locals => {:text_for_label => "Search member profiles", :text_for_button => "Search"}
   %br.clear
   %ul
     -for person in @profiles
@@ -21,11 +20,4 @@
   -unless logged_in?
     %div.login-form
       %h2 Log-in
-      - form_tag session_path do
-        =render :partial => "sessions/form"
-      %p 
-        = "Not a member? Sign-up "
-        = link_to "here", new_person_url
-      %p
-        = "Forgot your password? Click "
-        = link_to "here", forgot_password_url
+      =render :partial => "profile_session_form"

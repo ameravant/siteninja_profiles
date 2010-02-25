@@ -23,12 +23,12 @@ class ProfilesController < PeopleController
   end
   def forgot_password
     if request.post?
-      @profile_user = Profile.find_by_email(params[:profile][:email]).user
+      @profile_user = Profile.find_by_email(params[:profile][:email]) 
       if @profile_user.nil? 
         flash[:notice] = "Could not find that person"
-        redirect_to "/" and return
+        redirect_to forgot_password_profiles_url and return
       else
-        if @profile_user.change_password(@profile_user.login, @profile_user.login)
+        if @profile_user.user && @profile_user.user.change_password(@profile_user.user.login, @profile_user.user.login)
           flash[:notice] = "Your password has been sent to your email"
           redirect_to "/" and return
           ProfileMailer.deliver_changed_password_notification
