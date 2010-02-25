@@ -1,0 +1,18 @@
+%div#member
+  %h1.member-name= @profile.name
+  = image_tag( @profile.avatar.url(:large), :alt => "Profile photo for %s" % @profile.name) if @profile.avatar_file_name
+  %div.member-meta
+    %h2= "About %s" % @profile.name
+    %dl
+      %dt Company:
+      %dd= @profile.company
+      %dt Title:
+      %dd= @profile.title
+      %dt Email:
+      %dd= @profile.email
+      -if @profile.phone
+        %dt Phone:
+        %dd= @profile.phone
+  %div.member-meta.comments
+    %h2= "Comments"
+    %p= @profile.comments

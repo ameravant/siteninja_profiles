@@ -1,0 +1,31 @@
+%div#member-index
+  %h1 Profiles
+  %div.search
+    .float-right
+      - form_tag(request.path, :method => "get", :id => "search_form") do
+        - fields_for :search do |f|
+          = tag(:input, :id => "search", :name => "search", :type => "search", :size => "25", :value => (params[:search] ? params[:search] : nil), :autosave => "site-ninja.com", :results => 10)
+        = submit_tag "Search"
+        - unless params[:search].blank?
+          = link_to "clear search", request.path
+    / =render :partial => 'searches/form', :locals => {:text_for_label => "Search member profiles", :text_for_button => "Search"}
+  %br.clear
+  %ul
+    -for person in @profiles
+      -unless person.user.has_role(@permissions['admin'])
+        %li
+          =link_to image_tag(person.avatar.url(:thumb), :alt => "Profile photo for %s" % person.name), person unless person.avatar.url.blank?
+          %p
+            =link_to person.name, person
+            = person.company unless person.company.blank?
+  -unless logged_in?
+    %div.login-form
+      %h2 Log-in
+      - form_tag session_path do
+        =render :partial => "sessions/form"
+      %p 
+        = "Not a member? Sign-up "
+        = link_to "here", new_person_url
+      %p
+        = "Forgot your password? Click "
+        = link_to "here", forgot_password_url

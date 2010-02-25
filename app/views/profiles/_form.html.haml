@@ -1,0 +1,42 @@
+= error_messages_for :profile
+- form_for @profile, :html => {:multipart => true} do |f|
+  %dl
+    %fieldset
+      %h2= large_icon('User') + ' ' + "Basic Info"
+      - form_attributes.each do |att|
+        %dt.form-label= f.label att
+        %dd.form-option= f.text_field att
+    %fieldset
+      %dt.form-label= f.label :avatar, "Upload a photo for your profile"
+      %dd.form-option= f.file_field :avatar
+      %dt.form-label= f.label :comments, "Add comments"
+      %dd.form-option= f.text_area :comments
+    %fieldset
+      %h2= large_icon('User') + ' ' + "Additional Contact Info"
+      - additional_form_attributes.each do |att|
+        %dt.form-label= f.label att
+        %dd.form-option= f.text_field att, :size => "60"
+      %dt.form-label= f.label :city
+      %dd.form-option= f.text_field :city, :size => "60"  
+      %dt.form-label= f.label :state
+      %dd.form-option= select :person, :state, $USA_STATES_ARRAY
+      %dt.form-label= f.label :zip
+      %dd.form-option= f.text_field :zip
+    %fieldset
+      %h2= large_icon('Lock Open') + ' ' + "Login Settings"
+      -f.fields_for :user do |user|
+        %dt.form-label= user.label :login
+        %dd.form-option= user.text_field :login
+        %dt.form-label= user.label :password
+        %dd.form-option= user.text_field :password
+        %dt.form-label= user.label :password_confirmation
+        %dd.form-option= user.text_field :password_confirmation
+  -if @cms_config['modules']['newsletters']
+    %h2 Subscribe to any of our newsletters
+    -for group in @groups 
+      %p
+        = check_box_tag('person[person_group_ids][]', group.id, false, :id => "#{group.title}")
+        %label{:for=> "#{group.title}"}== Subscribe to #{group.title}
+      %p About this newsletter:
+      %span= truncate(group.description, :length => 100)
+  =f.submit text
