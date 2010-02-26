@@ -56,7 +56,7 @@ class ProfilesController < PeopleController
   end
   private
   def authorize_member  
-    if Page.find_by_permalink("profiles") and Page.find_by_permalink("profiles").parent
+    if Page.find_by_permalink("profiles") and Page.find_by_permalink("profiles").menus.first.parent_id
       login_required
     end
   end
