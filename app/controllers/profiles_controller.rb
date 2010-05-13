@@ -1,6 +1,7 @@
 class ProfilesController < PeopleController
   before_filter :authorize_member, :get_page
   before_filter :get_profile, :only => [:show, :edit]
+  before_filter :get_groups, :only => [:edit, :create, :new]
   
   def index
     profiles = params[:search].blank? ? Profile.standard : Profile.search_for(params[:search])
@@ -13,11 +14,9 @@ class ProfilesController < PeopleController
     
   end
   def edit
-   @groups = PersonGroup.only_public
   end
   def new
     @profile = Profile.new
-    @groups = PersonGroup.only_public
     @user = User.new
     @profile.build_user
   end
@@ -42,11 +41,11 @@ class ProfilesController < PeopleController
     end
   end
   def create
-    @groups = PersonGroup.only_public
     @profile = Profile.new(params[:profile])
     params[:profile][:user_attributes].merge!({ :name => params[:profile][:name], :email => params[:profile][:email] })
     params[:profile][:person_group_ids] ||= []
     @profile.confirmed = !@cms_config['site_settings']['member_confirmation']
+    @profile.person_group_ids = @profile.person_group_ids << PersonGroup.find_by_title("Member").id
     if @profile.save 
       redirect_to new_session_path
       flash[:notice] = "Thanks for joining! Please sign-in"
@@ -65,5 +64,8 @@ class ProfilesController < PeopleController
   end
   def get_profile
     @profile = Profile.find(params[:id])
+  end
+  def get_groups
+    @groups = PersonGroup.no_registrations(@cms_config['modules']['events'], :only_public)
   end
 end
