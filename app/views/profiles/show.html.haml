@@ -36,7 +36,7 @@
     %div.member-meta.comments
       = simple_format @person.notes
   = clear
-  %div{:class => (@person.articles.reject{|a| !a.published}.reject{|a| !a.published_date_in_past?}.count > 0 and @person.comments_count > 0 ? "member-meta-two-column" : "member-meta-one-column")}
+  %div{:class => (@person.articles.reject{|a| !a.published}.reject{|a| !a.published_date_in_past?} and @person.comments_count > 0 ? "member-meta-two-column" : "member-meta-one-column")}
     %h2 Recent Activity
     - if @person.articles.reject{|a| !a.published}.reject{|a| !a.published_date_in_past?}.count > 0
       .member-meta.articles
