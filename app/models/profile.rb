@@ -15,7 +15,7 @@ class Profile < ActiveRecord::Base
     eval(search_builder)
   end
   def self.standard
-    Person.active.confirmed.reject{|p| p.profile.blank?}.sort_by{|p| p.last_name.downcase}
+    Person.active.confirmed.reject{|p| p.profile.blank?}.reject{|p| !p.profile.public?}.sort_by{|p| p.last_name.downcase}
   end
   
   def name

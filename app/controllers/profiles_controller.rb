@@ -6,7 +6,7 @@ class ProfilesController < ApplicationController
   add_breadcrumb "Home", "/"
   def index
     add_breadcrumb "Profiles", nil
-    profiles = params[:search].blank? ? Profile.standard : Profile.search_for(params[:search]).reject{|p| p.profile.blank?}.sort_by{|p| p.last_name.downcase}
+    profiles = params[:search].blank? ? Profile.standard : Profile.search_for(params[:search]).reject{|p| p.profile.blank?}.reject{|p| !p.profile.public?}.sort_by{|p| p.last_name.downcase}
     @profiles = profiles.paginate(:page => params[:page], :per_page => 25)
   end
   
