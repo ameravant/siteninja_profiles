@@ -1,0 +1,15 @@
+- content_for :side_column do
+
+  .search
+    %h1 Profile Search
+    - form_tag(profiles_path, :method => "get", :id => "search_form") do
+      - fields_for :search do |f|
+        = tag(:input, :id => "search", :name => "search", :type => "search", :size => "25", :value => (params[:search] ? params[:search] : nil), :autosave => "site-ninja.com", :results => 10)
+      = submit_tag "Search"
+      - unless params[:search].blank?
+        = link_to "clear search", request.path
+  %br.clear
+  -unless logged_in?
+    %div.login-form
+      %h1 Log-in
+      =render :partial => "profile_session_form"

@@ -1,13 +1,17 @@
 - form_tag session_path do
-  %p
-    %label{:for => "login"} Login
-    %br
-    = text_field_tag 'login'
-  %p
-    %label{:for => "password"} Password
-    %br
-    = password_field_tag 'password'
-  %p= submit_tag 'Sign in', :class => 'big'
- 
-%p=link_to "Not a member? Sign up!", new_profile_url
-%p=link_to "Forgot your password?", forgot_password_profiles_url
+  %label{:for => "login"} Login
+  = text_field_tag 'login'
+  %br
+  %label{:for => "password"} Password
+  = password_field_tag 'password'
+  %br
+  = submit_tag 'Sign in', :class => 'big'
+  %br
+  =link_to "Not a member? Sign up!", new_profile_url
+  %br
+  =link_to "Forgot your password?", forgot_password_profiles_url
+  %br
+  %br
+- content_for :head do
+  %style{:type => "text/css"}
+    div.login-form label { float: left; width: 70px; }

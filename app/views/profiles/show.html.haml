@@ -1,18 +1,64 @@
+= image_tag(@person.avatar.url(:medium), :alt => "Profile photo for %s" % @person.name, :class => "profile-image") if @person.avatar_file_name
+
 %div#member
-  %h1.member-name= @profile.name
-  = image_tag( @profile.avatar.url(:large), :alt => "Profile photo for %s" % @profile.name) if @profile.avatar_file_name
+  %h1.member-name= @person.name
   %div.member-meta
-    %h2= "About %s" % @profile.name
     %dl
-      %dt Company:
-      %dd= @profile.company
-      %dt Title:
-      %dd= @profile.title
-      %dt Email:
-      %dd= @profile.email
-      -if @profile.phone
+      - if !@person.company.blank? and @person.profile.show_company?
+        %dt Company:
+        %dd= @person.company
+      - if !@person.title.blank? and @person.profile.show_title?
+        %dt Title:
+        %dd= @person.title
+      - if !@person.email.blank? and @person.profile.show_email?
+        %dt Email:
+        %dd= link_to(@person.email, "mailto:#{@person.email}")
+      - if !@person.phone.blank? and @person.profile.show_phone?
         %dt Phone:
-        %dd= @profile.phone
-  %div.member-meta.comments
-    %h2= "Comments"
-    %p= @profile.comments
+        %dd= @person.phone
+      - if !@person.web_address.blank? and @person.profile.show_web_address?
+        %dt Website:
+        %dd= link_to(@person.web_address, @person.web_address)
+      - if !@person.address1.blank? and @person.profile.show_address1?
+        %dt Address:
+        %dd
+          = @person.address1
+          - if !@person.address2.blank? and @person.profile.show_address2?
+            %br
+            = @person.address2
+      - if !@person.city.blank? and @person.profile.show_city?
+        %dt City:
+        %dd= @person.city
+      - if !@person.state.blank? and @person.profile.show_state?
+        %dt State:
+        %dd= @person.state
+  - unless @person.notes.blank?
+    %div.member-meta.comments
+      = simple_format @person.notes
+  = clear
+  %div{:class => (@person.articles.reject{|a| !a.published}.reject{|a| !a.published_date_in_past?}.count > 0 and @person.comments_count > 0 ? "member-meta-two-column" : "member-meta-one-column")}
+    %h2 Recent Activity
+    - if @person.articles.reject{|a| !a.published}.reject{|a| !a.published_date_in_past?}.count > 0
+      .member-meta.articles
+        %h3 Latest Posts
+        %ul.recent_articles.list_of_links
+          - for article in @person.articles.reject{|a| !a.published}.reject{|a| !a.published_date_in_past?}[0..4]
+            %li
+              %h4= link_to article.title, article_path(article)
+              %span.date= article.published_at.strftime("%a, %B %d, %Y")
+            
+              %p= article.description.blank? ? h(article.blurb) : h(article.description)
+          - if @person.articles_count > 5
+            %li= link_to("More Articles", articles_path(:author => @person.id))
+    - if @person.comments_count > 0
+      .member-meta.comments
+        %h3 Comments
+        %ul.recent_articles.list_of_links
+          - comments = Comment.find_all_by_person_id(@person.id)
+          - for comment in comments.sort_by(&:created_at)[0..4]
+            %li
+              %h4= link_to comment.commentable.title, comment.commentable
+              %span.date= comment.commentable.created_at.strftime("%a, %B %d, %Y")
+              = simple_format(link_to(truncate(comment.comment, 200), (comment.commentable)))# + "#comment_#{comment.id}")
+= render :partial => "side_column"
+= render :partial => "pages/sidebar"

@@ -1,42 +1,118 @@
 = error_messages_for :profile
-- form_for @profile, :html => {:multipart => true} do |f|
-  %dl
-    %fieldset
-      %h2= large_icon('User') + ' ' + "Basic Info"
-      - form_attributes.each do |att|
-        %dt.form-label= f.label att
-        %dd.form-option= f.text_field att
-    %fieldset
-      %dt.form-label= f.label :avatar, "Upload a photo for your profile"
-      %dd.form-option= f.file_field :avatar
-      %dt.form-label= f.label :comments, "Add comments"
-      %dd.form-option= f.text_area :comments
-    %fieldset
-      %h2= large_icon('User') + ' ' + "Additional Contact Info"
-      - additional_form_attributes.each do |att|
-        %dt.form-label= f.label att
-        %dd.form-option= f.text_field att, :size => "60"
-      %dt.form-label= f.label :city
-      %dd.form-option= f.text_field :city, :size => "60"  
-      %dt.form-label= f.label :state
-      %dd.form-option= select :person, :state, $USA_STATES_ARRAY
-      %dt.form-label= f.label :zip
-      %dd.form-option= f.text_field :zip
-    %fieldset
-      %h2= large_icon('Lock Open') + ' ' + "Login Settings"
-      -f.fields_for :user do |user|
-        %dt.form-label= user.label :login
-        %dd.form-option= user.text_field :login
-        %dt.form-label= user.label :password
-        %dd.form-option= user.text_field :password
-        %dt.form-label= user.label :password_confirmation
-        %dd.form-option= user.text_field :password_confirmation
-  -if @cms_config['modules']['newsletters']
-    %h2 Subscribe to any of our newsletters
-    -for group in @groups 
-      %p
-        = check_box_tag('person[person_group_ids][]', group.id, false, :id => "#{group.title}")
-        %label{:for=> "#{group.title}"}== Subscribe to #{group.title}
-      %p About this newsletter:
-      %span= truncate(group.description, :length => 100)
-  =f.submit text
+- form_for @person, :url => profiles_path, :html => {:multipart => true} do |f|
+  - fields_for @profile do |p|
+    %dl
+      %fieldset
+        %h2= large_icon('Lock Open') + ' ' + "Login Settings"
+        -f.fields_for :user do |user|
+          %dt.form-label= user.label :login
+          %dd.form-option= user.text_field :login, :size => "44"
+          %dt.form-label= user.label :password
+          %dd.form-option= user.password_field :password, :size => "44"
+          %dt.form-label= user.label :password_confirmation
+          %dd.form-option= user.password_field :password_confirmation, :size => "44"
+
+      %fieldset
+        %h2= large_icon('User') + ' ' + "Basic Info"
+        %dt.form-label= f.label :first_name
+        %dd.form-option= f.text_field :first_name, :size => "44"
+        %dt.form-label= f.label :last_name
+        %dd.form-option= f.text_field :last_name, :size => "44" 
+        %dt.form-label= f.label :email
+        %dd.form-option
+          = f.text_field :email, :size => "44" 
+          - if CMS_CONFIG['modules']['profiles']
+            .display-option
+              = p.check_box :show_email
+              = p.label :show_email, "Display Publicly"
+        %dt.form-label= f.label :phone
+        %dd.form-option
+          = f.text_field :phone, :size => "44" 
+          - if CMS_CONFIG['modules']['profiles']
+            .display-option
+              = p.check_box :show_phone
+              = p.label :show_phone, "Display Publicly"
+        %dt.form-label= f.label :web_address
+        %dd.form-option
+          = f.text_field :web_address, :size => "44" 
+          - if CMS_CONFIG['modules']['profiles']
+            .display-option
+              = p.check_box :show_web_address
+              = p.label :show_web_address, "Display Publicly"
+      %fieldset
+        %h2= large_icon('User') + ' ' + "Additional Contact Info"
+        %dt.form-label= f.label :company
+        %dd.form-option
+          = f.text_field :company, :size => "44" 
+          - if CMS_CONFIG['modules']['profiles']
+            .display-option
+              = p.check_box :show_company
+              = p.label :show_company, "Display Publicly"
+        %dt.form-label= f.label :title
+        %dd.form-option
+          = f.text_field :title, :size => "44" 
+          - if CMS_CONFIG['modules']['profiles']
+            .display-option
+              = p.check_box :show_title
+              = p.label :show_title, "Display Publicly"
+        %dt.form-label= f.label :address1
+        %dd.form-option
+          = f.text_field :address1, :size => "44" 
+          - if CMS_CONFIG['modules']['profiles']
+            .display-option
+              = p.check_box :show_address1
+              = p.label :show_address2, "Display Publicly"
+        %dt.form-label= f.label :address2
+        %dd.form-option
+          = f.text_field :address2, :size => "44" 
+          - if CMS_CONFIG['modules']['profiles']
+            .display-option
+              = p.check_box :show_address2
+              = p.label :show_address2, "Display Publicly"
+        %dt.form-label= f.label :city
+        %dd.form-option
+          = f.text_field :city, :size => "44"  
+          - if CMS_CONFIG['modules']['profiles']
+            .display-option
+              = p.check_box :show_city
+              = p.label :show_city, "Display Publicly"
+        %dt.form-label= f.label :state
+        %dd.form-option
+          = select :person, :state, $USA_STATES_ARRAY
+          - if CMS_CONFIG['modules']['profiles']
+            .display-option
+              = p.check_box :show_state
+              = p.label :show_state, "Display Publicly"
+        %dt.form-label= f.label :zip
+        %dd.form-option
+          = f.text_field :zip
+          - if CMS_CONFIG['modules']['profiles']
+            .display-option
+              = p.check_box :show_zip
+              = p.label :show_zip, "Display Publicly"
+        %dt.form-label= f.label :avatar, "Upload a photo for your profile"
+        %dd.form-option= f.file_field :avatar
+        %dt.form-label= f.label :notes, "Additional Information"
+        %dd.form-option= f.text_area :notes, :size => "65x10"
+        
+    -if @cms_config['modules']['newsletters']
+      %fieldset
+        %h2= large_icon('Mail') + ' ' + "Subscribe to any of our newsletters"
+        -for group in @groups 
+          %p
+            = check_box_tag('person[person_group_ids][]', group.id, false, :id => "#{group.title}")
+            %label{:for=> "#{group.title}"}= group.title
+            %span{:class => "small gray"}== &mdash; #{group.description}
+    = clear
+    = f.submit text
+    
+- content_for :head do
+  %style{:type => "text/css"}
+    dl label { font-size: .8em; }
+    form.new_person fieldset { margin: 0 0 20px 0; background: #efefef; padding: 0 10px 10px; border: 1px solid #ccc; }
+    dd.form-option { line-height: 15px; padding-top: 0; }
+    dd.form-option input { font-size: .9em; line-height: 15px; }
+    div.display-option { float: right; font-size: 1.2em; }
+    div.display-option input { display: inline !important; }
+    div.display-option label { display: inline !important; margin: 0; width: 100px; float: none; }
+    span.small.gray { font-size: .9em; color: #666; display: inline; }
