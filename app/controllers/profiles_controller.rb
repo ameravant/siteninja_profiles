@@ -58,7 +58,9 @@ class ProfilesController < ApplicationController
     @person.confirmed = !@cms_config['site_settings']['member_confirmation']
     @person.person_group_ids = @person.person_group_ids << PersonGroup.find_by_title("Member").id
     if @person.save
-      Profile.create(:person_id => @person.id)
+      profile = Profile.new(params[:profile])
+      profile.person_id = @person.id
+      profile.save
       redirect_to new_session_path
       flash[:notice] = "Thanks for joining! Please sign-in"
     else
