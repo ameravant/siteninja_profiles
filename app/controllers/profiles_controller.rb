@@ -61,8 +61,13 @@ class ProfilesController < ApplicationController
       profile = Profile.new(params[:profile])
       profile.person_id = @person.id
       profile.save
-      redirect_to new_session_path
-      flash[:notice] = "Thanks for joining! Please sign-in"
+      if Page.find_by_permalink("profile-checkout")
+        redirect_to "/profile-checkout"
+        flash[:notice] = "Thanks for signing up, please complete the checkout process to confirm your registration."
+      else
+        redirect_to new_session_path
+        flash[:notice] = "Thanks for joining! Please sign-in"
+      end
     else
       render :action => "new"
     end

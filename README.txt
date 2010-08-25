@@ -1,3 +1,11 @@
+Profiles Module
+To use
+
+Create a new page called "profiles"
+This will be the index listing and searching of profiles. If you want to make it only searchable by members, 
+move the page under the members page.
+If we want an interstitial or payment page, create a page with a metatitle of "profile checkout" and make it hidden.
+
 Copyright (c) 2010 Ameravant
 
 Permission is hereby granted, free of charge, to any person obtaining
