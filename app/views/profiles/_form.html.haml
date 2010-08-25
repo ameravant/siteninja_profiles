@@ -98,11 +98,12 @@
     -if @cms_config['modules']['newsletters']
       %fieldset
         %h2= large_icon('Mail') + ' ' + "Subscribe to any of our newsletters"
-        -for group in @groups 
-          %p
-            = check_box_tag('person[person_group_ids][]', group.id, true, :id => "#{group.title}")
-            %label{:for=> "#{group.title}"}= group.title
-            %span{:class => "small gray"}== &mdash; #{group.description}
+        -for group in @groups
+          -unless group.is_event_registration_group 
+            %p
+              = check_box_tag('person[person_group_ids][]', group.id, true, :id => "#{group.title}")
+              %label{:for=> "#{group.title}"}= group.title
+              %span{:class => "small gray"}== &mdash; #{group.description}
     = clear
     = f.submit text
     
