@@ -10,7 +10,7 @@ class Profile < ActiveRecord::Base
   def self.search_for(keywords)
     search_builder = "Person"
     for parameter in keywords.to_s.split
-      search_builder << ".first_name_or_last_name_or_company_like(\"#{parameter}\")"
+      search_builder << ".first_name_or_last_name_or_notes_or_company_like(\"#{parameter}\")"
     end
     eval(search_builder)
   end
