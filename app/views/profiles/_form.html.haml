@@ -104,6 +104,9 @@
               = check_box_tag('person[person_group_ids][]', group.id, true, :id => "#{group.title}")
               %label{:for=> "#{group.title}"}= group.title
               %span{:class => "small gray"}== &mdash; #{group.description}
+    %p
+      = check_box :person, :agreement 
+      = "By checking this box, you acknowledge that you have read and accept our " + link_to("terms of service", "/terms-of-use") + "."
     = clear
     = f.submit text
     

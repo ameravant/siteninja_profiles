@@ -2,11 +2,11 @@ class Profile < ActiveRecord::Base
   unloadable
   belongs_to :person
   has_permalink :name
+  attr_accessor :agreement
   
   def to_param
     self.permalink
   end
-  
   def self.search_for(keywords)
     search_builder = "Person"
     for parameter in keywords.to_s.split
@@ -21,5 +21,4 @@ class Profile < ActiveRecord::Base
   def name
     self.person.name
   end
-  
 end
