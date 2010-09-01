@@ -78,7 +78,7 @@
               = p.label :show_city, "Display Publicly"
         %dt.form-label= f.label :state
         %dd.form-option
-          = select :person, :state, $USA_STATES_ARRAY
+          = select :person, :state, $USA_STATES_ARRAY, :selected => 'CA' 
           - if CMS_CONFIG['modules']['profiles']
             .display-option
               = p.check_box :show_state
