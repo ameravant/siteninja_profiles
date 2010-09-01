@@ -32,6 +32,9 @@
       - if !@person.state.blank? and @person.profile.show_state?
         %dt State:
         %dd= @person.state
+      - if !@person.zip.blank? and @person.profile.show_zip?
+        %dt Zip:
+        %dd= @person.zip
   - unless @person.notes.blank?
     %div.member-meta.comments
       = simple_format @person.notes
