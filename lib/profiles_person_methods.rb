@@ -5,7 +5,7 @@ module ActiveRecord #:nodoc:
     end
     module ClassMethods
       def profiles_person_methods
-        validates_acceptance_of :agreement, :allow_nil => false 
+        validates_acceptance_of :agreement, :on => :create, :unless => @admin, :allow_nil => false 
       end
     end
   end
