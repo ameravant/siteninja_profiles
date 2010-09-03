@@ -5,7 +5,15 @@ module ActiveRecord #:nodoc:
     end
     module ClassMethods
       def profiles_person_methods
-        validates_acceptance_of :agreement, :on => :create, :unless => @admin, :allow_nil => false 
+        accepts_nested_attributes_for :profile
+        attr_accessor :has_profile
+        validates_acceptance_of :agreement, :on => :create, :if => :conditional_validation, :allow_nil => false 
+        include ActiveRecord::ProfilesPersonMethods::InstanceMethods
+      end
+    end
+    module InstanceMethods
+      def conditional_validation
+        !@admin && has_profile
       end
     end
   end

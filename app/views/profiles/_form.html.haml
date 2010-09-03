@@ -49,6 +49,7 @@
             .display-option
               = p.check_box :show_company
               = p.label :show_company, "Display Publicly"
+              = hidden_field :person, :has_profile, :value => true
         %dt.form-label= f.label :title
         %dd.form-option
           = f.text_field :title, :size => "44" 
