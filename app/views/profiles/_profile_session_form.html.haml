@@ -6,11 +6,10 @@
   = password_field_tag 'password'
   %br
   = submit_tag 'Sign in', :class => 'big'
-  %br
-  =link_to "Not a member? Sign up!", new_profile_url
-  %br
-  =link_to "Forgot your password?", forgot_password_profiles_url
-  %br
-  %br
+  %br.clear
+  %p
+    =link_to "Not a member? Sign up!", new_profile_url
+  %p
+    =link_to "Forgot your password?", forgot_password_profiles_url
 - content_for :head do
   = stylesheet_link_tag "/plugin_assets/siteninja_profiles/stylesheets/profile.css"

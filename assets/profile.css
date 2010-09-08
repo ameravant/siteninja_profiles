@@ -1,2 +1,2 @@
-div#content-inner.with-side-column div.login-form input, div#content-inner.with-side-column div.login-form label{margin: 5px 0 5px 0;}
-div#content-inner.with-side-column div.login-form label { clear:left; width: 100px; }
+div#side-column div.login-form input, div#side-column div.login-form label{margin: 5px 0 5px 0;}
+div#side-column div.login-form label { clear:left; width: 200px; }
