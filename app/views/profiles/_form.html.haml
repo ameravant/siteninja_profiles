@@ -14,6 +14,9 @@
           %dd.form-option= user.password_field :password_confirmation, :size => "44"
 
       %fieldset
+        .public-profile
+          = p.check_box :public
+          = p.label :public, "Show Public Profile"
         %h2= large_icon('User') + ' ' + "Basic Info"
         %dt.form-label= f.label :first_name
         %dd.form-option= f.text_field :first_name, :size => "44"
@@ -35,7 +38,7 @@
               = p.label :show_phone, "Display Publicly"
         %dt.form-label= f.label :web_address
         %dd.form-option
-          = f.text_field :web_address, :size => "44" 
+          = f.text_field :web_address, :size => "44"
           - if CMS_CONFIG['modules']['profiles']
             .display-option
               = p.check_box :show_web_address
@@ -121,4 +124,27 @@
     div.display-option { float: right; font-size: 1.2em; }
     div.display-option input { display: inline !important; }
     div.display-option label { display: inline !important; margin: 0; width: 100px; float: none; }
+    div.public-profile { float: right; font-size: 1.2em; }
+    div.public-profile input { display: inline !important; }
+    div.public-profile label { display: inline !important; margin: 0; width: 100px; float: none; }
     span.small.gray { font-size: .9em; color: #666; display: inline; }
+  :javascript
+    jQuery(document).ready(function() {
+    // hides the slickbox as soon as the DOM is ready
+    jQuery('#slickbox').hide();
+    // shows the slickbox on clicking the noted link
+    jQuery('#slick-show').click(function() {
+    jQuery('#slickbox').show('slow');
+    return false;
+    });
+    // hides the slickbox on clicking the noted link
+    jQuery('#slick-hide').click(function() {
+    jQuery('#slickbox').hide('fast');
+    return false;
+    });
+    // toggles the slickbox on clicking the noted link
+    jQuery('#slick-toggle').click(function() {
+    jQuery('#slickbox').toggle(400);
+    return false;
+    });
+    });
