@@ -37,7 +37,7 @@ class ProfilesController < ApplicationController
         if @profile_user.user && @profile_user.user.change_password(password, password)
           flash[:notice] = "Your password has been sent to your email"
           redirect_to "/" and return
-          ProfileMailer.deliver_changed_password_notification(password)
+          ProfileMailer.deliver_changed_password_notification(@profile_user, password)
         else
           flash[:notice] = "Your password could not be reset, please try again"
           redirect_to "/" and return

@@ -9,7 +9,7 @@ class ProfileMailer < ActionMailer::Base
     body :profile => profile
   end
   def changed_password_notification(profile, password)
-    setup_email(profile.email,  "Your password for #{CMS_CONFIG['website']['name']} has been reset.")
+    setup_email(profile.person.email,  "Your password for #{CMS_CONFIG['website']['name']} has been reset.")
     body :profile => profile, :password => password
   end
 
