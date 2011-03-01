@@ -5,7 +5,7 @@ class ProfileMailer < ActionMailer::Base
   end
   
   def confirmation_to_user(profile)
-    setup_email(profile.email, "Thanks for signing up!")
+    setup_email(profile.person.email, "Thanks for signing up!")
     body :profile => profile
   end
   def changed_password_notification(profile)

@@ -14,11 +14,7 @@ class ProfilesController < ApplicationController
    add_breadcrumb "Profiles", profiles_path
    add_breadcrumb @person.name, nil
   end
-  
-  def forgot_password
     
-  end
-  
   def edit
     
   end

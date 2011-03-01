@@ -66,7 +66,7 @@
           - if CMS_CONFIG['modules']['profiles']
             .display-option
               = p.check_box :show_address1
-              = p.label :show_address2, "Display Publicly"
+              = p.label :show_address1, "Display Publicly"
         %dt.form-label= f.label :address2
         %dd.form-option
           = f.text_field :address2, :size => "44" 
