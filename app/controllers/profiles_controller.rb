@@ -28,22 +28,21 @@ class ProfilesController < ApplicationController
   
   def forgot_password
     if request.post?
-      @profile_user = Person.find_by_email(params[:profile][:email]) 
+      @profile_user = Person.find_by_email(params[:person][:email]) 
       if @profile_user.nil? 
         flash[:notice] = "Could not find that person"
         redirect_to forgot_password_profiles_url and return
       else
-        if @profile_user.user && @profile_user.user.change_password(@profile_user.user.login, @profile_user.user.login)
+        password = (1..10).collect { (i = Kernel.rand(62); i += ((i < 10) ? 48 : ((i < 36) ? 55 : 61 ))).chr }.join
+        if @profile_user.user && @profile_user.user.change_password(password, password)
           flash[:notice] = "Your password has been sent to your email"
           redirect_to "/" and return
-          ProfileMailer.deliver_changed_password_notification
+          ProfileMailer.deliver_changed_password_notification(password)
         else
           flash[:notice] = "Your password could not be reset, please try again"
           redirect_to "/" and return
         end
       end
-    else
-      @profile_user = Person.new
     end
   end
   
