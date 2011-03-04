@@ -97,10 +97,10 @@
               = p.label :show_zip, "Display Publicly"
         %dt.form-label= f.label :avatar, "Upload a photo for your profile"
         %dd.form-option= f.file_field :avatar
-        %dt.form-label= f.label :notes, "Additional Information"
+        %dt.form-label= p.label :short_description, "Short Bio"
+        %dd.form-option= p.text_area :short_description, :size => "65x5"
+        %dt.form-label= f.label :notes, "Long Bio"
         %dd.form-option= f.text_area :notes, :size => "65x10"
-        %dt.form-label= p.label :short_description
-        %dd.form-option= p.text_area :short_description, :size => "60x6", :class => "mceEditor"
     -if @cms_config['modules']['newsletters']
       %fieldset
         %h2= large_icon('Mail') + ' ' + "Subscribe to any of our newsletters"
