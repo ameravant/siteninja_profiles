@@ -36,6 +36,7 @@ class ProfilesController < ApplicationController
         password = (1..10).collect { (i = Kernel.rand(62); i += ((i < 10) ? 48 : ((i < 36) ? 55 : 61 ))).chr }.join
         if @profile_user.user && @profile_user.user.change_password(password, password)
           flash[:notice] = "Your password has been sent to your email"
+          get_email_config
           ProfileMailer.deliver_changed_password_notification(@profile_user, password)
           redirect_to "/" and return
         else
@@ -106,5 +107,17 @@ class ProfilesController < ApplicationController
   end
   def get_groups
     @groups = PersonGroup.no_registrations(@cms_config['modules']['events'], :only_public)
+  end
+  def get_email_config
+    require 'tls_smtp'
+    ActionMailer::Base.smtp_settings = {
+      :address => "smtp.sendgrid.net",
+      :port => '587',
+      :enable_starttls_auto => true,
+      :authentication => :login,
+      :domain => CMS_CONFIG['website']['domain'],
+      :user_name => CMS_CONFIG['site_settings']['sendgrid_username'],
+      :password => CMS_CONFIG['site_settings']['sendgrid_password'],
+    }
   end
 end
