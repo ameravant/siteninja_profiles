@@ -1,15 +1,19 @@
-- form_tag session_path do
-  %label{:for => "login"} Login
-  = text_field_tag 'login'
-  %br
-  %label{:for => "password"} Password
-  = password_field_tag 'password'
-  %br
-  = submit_tag 'Sign in', :class => 'big'
-  %br.clear
-  %p
-    =link_to "Not a member? Sign up!", new_profile_url
-  %p
-    =link_to "Forgot your password?", forgot_password_profiles_url
-- content_for :head do
-  = stylesheet_link_tag "/plugin_assets/siteninja_profiles/stylesheets/profile.css"
+- content_for :side_column do
+  -unless logged_in?
+    %div.login-form
+      %h1 Log-in
+      - form_tag session_path do
+        %label{:for => "login"} Login
+        = text_field_tag 'login'
+        %br
+        %label{:for => "password"} Password
+        = password_field_tag 'password'
+        %br
+        = submit_tag 'Sign in', :class => 'big'
+        %br.clear
+        %p
+          =link_to "Not a member? Sign up!", new_profile_url
+        %p
+          =link_to "Forgot your password?", forgot_password_profiles_url
+    - content_for :head do
+      = stylesheet_link_tag "/plugin_assets/siteninja_profiles/stylesheets/profile.css"

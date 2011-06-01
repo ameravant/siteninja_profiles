@@ -9,7 +9,4 @@
       - unless params[:search].blank?
         = link_to "clear search", request.path
   %br.clear
-  -unless logged_in?
-    %div.login-form
-      %h1 Log-in
-      =render :partial => "profile_session_form"
+=render :partial => "profile_session_form"

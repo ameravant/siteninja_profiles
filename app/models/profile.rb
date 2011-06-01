@@ -23,4 +23,8 @@ class Profile < ActiveRecord::Base
   def name
     self.person.name
   end
+  
+  def title
+    self.person.name
+  end
 end
