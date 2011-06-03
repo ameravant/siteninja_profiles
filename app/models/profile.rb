@@ -2,6 +2,7 @@ class Profile < ActiveRecord::Base
   unloadable
   belongs_to :person
   has_permalink :name
+  attr_accessor :agreement
   
   def to_param
     self.permalink
