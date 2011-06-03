@@ -2,6 +2,7 @@ class Profile < ActiveRecord::Base
   unloadable
   belongs_to :person
   has_permalink :name
+  attr_accessor :agreement
   
   def to_param
     self.permalink
@@ -15,6 +16,9 @@ class Profile < ActiveRecord::Base
   end
   def self.standard
     Person.active.confirmed.reject{|p| p.profile.blank?}.reject{|p| !p.profile.public?}.sort_by{|p| p.last_name.downcase}
+  end
+  def email
+    self.person.email
   end
   
   def name
