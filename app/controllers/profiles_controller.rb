@@ -78,7 +78,7 @@ class ProfilesController < ApplicationController
   end
   def get_page
     @page = Page.find_by_permalink("profiles")
-    @page = Page.find_by_permalnk("inquire") if !@page
+    @page = Page.find_by_permalink("inquire") if !@page
     @side_column_sections = ColumnSection.all(:conditions => {:column => "side", :visible => true})
     @images = @page.images
     @footer_pages = Page.find(:all, :conditions => {:show_in_footer => true}, :order => :footer_pos )
