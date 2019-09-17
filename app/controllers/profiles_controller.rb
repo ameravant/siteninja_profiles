@@ -91,7 +91,7 @@ class ProfilesController < ApplicationController
     @article_categories = ArticleCategory.active
     @article_archive = articles.group_by { |a| [a.published_at.month, a.published_at.year] }
     @article_authors = Person.active.find(:all, :conditions => "articles_count > 0")
-    @article_tags = Article.published.tag_counts.sort_by(&:name)
+    #@article_tags = Article.published.tag_counts.sort_by(&:name)
     @recent_articles = articles
     if @page.show_events? and @cms_config['modules']['events']
       @events = Event.future[0..2]
